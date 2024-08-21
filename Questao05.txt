@@ -1,0 +1,61 @@
+Se utilizar de Contextos é uma forma de passar dados entre a árvore de componentes sem precisar passar props manualmente em cada nível.
+
+
+Um exemplo é o visto nas aulas, primeiramente criando um contexto com React.createContext(). No nosso caso a referência desse contexto é a Variavel:
+_______________________________________________________________________________________________
+VariavelContexto.js:
+import { createContext } from "react";
+export const Variavel = createContext("")
+_______________________________________________________________________________________________
+E para passar os valores do componente pai para o filho temos que criar um Provider:
+
+import { Variavel } from "./VariavelContexto"
+import { useContext } from "react"
+
+const CompA=()=>{
+
+    const variavelDeA  = "Variavel De A"
+    return(
+        <>
+            <Variavel.Provider value={variavelDeA}>
+                <CompB />
+                <CompC />
+            </Variavel.Provider>
+            
+        </>
+    )
+}
+
+const CompB=()=>{
+
+    const variavel = useContext(Variavel)
+    return(
+        <>
+            <h3>B: {variavel} </h3>
+        </>
+    )
+}
+const CompC=()=>{
+    return(
+        <>
+            <CompD />
+        </>
+    )
+}
+const CompD=()=>{
+    return(
+        <>
+            <CompE />
+        </>
+    )
+}
+const CompE=()=>{
+    const variavel = useContext(Variavel)
+    return(
+        <>
+            <h3>E: {variavel}</h3>
+        </>
+    )
+}
+
+export {CompA, CompB, CompC, CompD, CompE}
